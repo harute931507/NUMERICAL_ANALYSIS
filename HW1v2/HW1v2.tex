@@ -1,0 +1,97 @@
+\documentclass[12pt]{article} 
+\usepackage{fontspec} 
+\usepackage{xeCJK}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{listings}
+\parindent=0pt
+\setCJKmainfont{標楷體} 
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\title{數值分析Team5 Homwork2 v2}
+\author{盧勁綸\and 張毓軒\and 李奇軒\and 王宥鈞}
+\date{}
+
+\begin{document}
+\maketitle
+[Theoretical problems]
+\begin{enumerate}
+\item 
+略
+\item 
+Let $(0.1)_{10}=(0.a_1a_2a_3a_4a_5...)_{2}$ 
+\begin{eqnarray*}
+(0.2)_{10}&=&(a_1.a_2a_3a_4...)_2 \Rightarrow a_1=0\\
+(0.4)_{10}&=&(a_2.a_3a_4a_5...)_2 \Rightarrow a_2=0\\
+(0.8)_{10}&=&(a_3.a_4a_5a_6...)_2 \Rightarrow a_3=0\\
+(1.6)_{10}&=&(a_4.a_5a_6a_7...)_2 \Rightarrow a_4=1\\
+(0.6)_{10}&=&(0.a_5a_6a_7...)_2\\
+(1.2)_{10}&=&(a_5.a_6a_7a_8...)_2 \Rightarrow a_5=1\\
+(0.2)_{10}&=&(0.a_6a_7a_8...)_2\\
+(0.4)_{10}&=&(a_6.a_7a_8a_9...)_2 \Rightarrow a_6=0
+\end{eqnarray*}	
+we get the relations
+\begin{eqnarray*}
+a_1&=&0\\
+a_2&=&a_6\ =\ a_{2+4k}\ =\ 0\\
+a_3&=&a_7\ =\ a_{3+4k}\ =\ 0\\
+a_4&=&a_8\ =\ a_{4k}\ \ \ \ =\ 1\\
+a_5&=&a_9\ =\ a_{1+4k}\ =\ 1
+\end{eqnarray*}
+therefore
+\begin{eqnarray*}
+(0.1)_{10}&=&(0.000110011001100...)_{2}\\
+&=&(-1)^{0}*2^{-4}*(1+0.100110011001100110011001...)_2\\\\
+sign\ s&=&0\\
+exponent\ e&=&(-4+127)=123=(01111011)_{2}\\
+mantissa\ m&=&10011001100110011001101 
+\end{eqnarray*}
+So 0.1's floating-point number is 0 01111011 10011001100110011001101
+
+
+\item 
+\begin{enumerate}
+
+\item 
+略\\
+
+\item
+\begin{eqnarray*}
+b^2&=&11.1556\\
+4ac&=&11.1264\\
+b^2-4ac&=&0.0292\\
+\end{eqnarray*}
+
+
+\item
+\begin{eqnarray*}
+\frac{\left|0.0292-0.1\right|}{0.1}&=&\frac{0.0708}{0.1}
+\ =\ 0.708
+\end{eqnarray*}
+\end{enumerate}
+\end{enumerate}
+
+
+[Numerical Problems]
+\begin{enumerate}
+
+\item
+The following is our MATLAB code\\
+\lstset{language=Matlab,showstringspaces=false}
+\lstinputlisting{findTheNumber.m}
+\begin{eqnarray*}
+\epsilon_1 = 2^{-53} \ , \epsilon_2 = 2^{-1075}
+\end{eqnarray*}
+
+These two numbers are not the same , 
+we guess the motion $+1$ involved in the arithmetic of floating point numbers, makes the accuracy decrease.\\
+
+\item
+\begin{enumerate}
+\item
+略
+\item
+略
+\end{enumerate}
+\end{enumerate}
+\end{document}

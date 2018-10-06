@@ -1,0 +1,116 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{commath}
+\usepackage{fontspec} 
+\usepackage{xeCJK}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{listings}
+\parindent=0pt
+\setCJKmainfont{標楷體} 
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\title{數值分析Team5 Homwork4}
+\author{盧勁綸\and 張毓軒\and 李奇軒\and 王宥鈞}
+\date{}
+
+
+\begin{document}
+\maketitle
+\begin{enumerate}
+    \item %1
+        By the equation, we can have $-y_{n+3}-ay_{n+2}+y_{n+1}+y_{n}+hb(f_{n+2}+f_{n+1})=0$, \\ we have $\begin{cases} a_{-1} &=-1 \\ a_0&=-a \\ a_1&=a \\ a_2&=1 \end{cases}$\ \ and\ \ $\begin{cases} b_{-1} &=0 \\ b_0&=b \\ b_1&=b \\ b_2&=0 \end{cases}$\ \ then\ \ observe that
+        \begin{align*}
+        C_0 &= -1-a+a+1 = 0 \\
+        C_1 &= \sum_{i=-1}^2(1-i)a_i+\sum_{i=-1}^2b_i = -2-a-1+2b = 0 \\
+        &\Rightarrow a-2b = -3 \\
+        C_2 &= \frac{1}{2!}\sum_{i=-1}^2(1-i)^2a_i+\sum_{i=-1}^2(1-i)b_i = \frac{1}{2}(-4-a+1)+b = 0 \\
+        &\Rightarrow a-2b = -3\\
+        C_3 &= \frac{1}{3!}\sum_{i=-1}^2(1-i)^3a_i+\frac{1}{2!}\sum_{i=-1}^2(1-i)^2b_i = \frac{1}{3!}(-8-a-1)+\frac{1}{2!}b = 0 \\
+        &\Rightarrow a-3b = -9 \\
+        C_4 &= \frac{1}{4!}\sum_{i=-1}^2(1-i)^4a_i+\frac{1}{3!}\sum_{i=-1}^2(1-i)^3b_i = \frac{1}{4!}(-16-a+1)+\frac{1}{3!}b = 0 \\
+        &\Rightarrow a-4b = -15
+        \end{align*}
+        by $C_1$ and $C_3$, we have $a=9$ and $b=6$ 
+        \begin{eqnarray*}
+        C_5 &=& \frac{1}{5!}\sum_{i=-1}^{2}(1-i)^5a_i+\frac{1}{4!}\sum_{i=-1}^2(1-i)^4b_i\\
+            &=& \frac{1}{5!}(-32-a-1)+\frac{1}{4!}b\\
+            &=& \frac{1}{5!}(-33-9+5*6)\neq 0
+            \end{eqnarray*}
+            therefore,it has degree of accuracy 4
+            Plug in $a=9,~b=-6$, We get
+            \begin{align*}
+            P_1&=\sum_{i=-1}^2a_ir^i \\
+            &=-(r-1)(r^2+(a+1)r+1)\\
+            &=-(r-1)(r^2+10r+1) \\
+            \Rightarrow r&= 1 \vee -5 \pm 2\sqrt{6} \\
+            \text{But } &|-5-2\sqrt{6}|~>1	~\Rightarrow \text{Not zero stable}
+            \end{align*}
+        
+	\item %2
+		$f(x)=x^2$ , $x \in [-\pi,\pi]$	and period is $2\pi$ , then we get
+		\begin{eqnarray*}
+			f(x) = a_0 + \sum_{n=1}^{\infty}\left[a_n\cos\left(\frac{n\pi x}{\pi}\right)+b_n\sin\left(\frac{n\pi x}{\pi}\right)\right]
+		\end{eqnarray*}
+		where
+		\begin{eqnarray*}
+			a_0 &=& \frac{1}{2\pi}\int_{-\pi}^{\pi}f(x)~dx\\
+				&=& \frac{1}{2\pi}\int_{-\pi}^{\pi}x^2~dx\\
+				&=& \frac{1}{2\pi}\left[ \frac{1}{3}x^3 \right]_{-\pi}^{\pi}\\
+				&=& \frac{\pi ^2}{3}
+		\end{eqnarray*}		
+		for $n \geq 1$
+		\begin{eqnarray*}
+			a_n &=& \frac{1}{\pi}\int_{-\pi}^{\pi}f(x)\cos\left(\frac{n\pi x}{\pi}\right)~dx\\
+				&=& \frac{1}{\pi}\int_{-\pi}^{\pi}x^2\cos(nx)~dx\\
+				&=& \frac{1}{\pi}\left\{ \left[ x^2*\frac{1}{n}\sin(nx) \right]_{-\pi}^{\pi} - \int_{-\pi}^{\pi}2x*\frac{1}{n}\sin(nx)~dx \right\}\\
+				&=& \frac{1}{\pi}\left[~0-\frac{2}{n}\int_{-\pi}^{\pi}x\sin(nx)~dx \right]\\
+				&=& \frac{-2}{n\pi}\left\{ \left[x(\frac{-1}{n})\cos(nx)\right]_{-\pi}^{\pi} - \int_{-\pi}^{\pi}(\frac{-1}{n})\sin(nx)~dx \right\}\\
+				&=& \frac{-2}{n\pi}\left\{\frac{-2\pi}{n}\cos(n\pi)- \left[\frac{1}{n^2}\cos(nx)\right]_{-\pi}^{\pi}\right\}\\
+				&=& \frac{4}{n^2}\cos(n\pi)
+		\end{eqnarray*}	
+		Since $x^2\sin(nx)$ is odd function
+		\begin{eqnarray*}
+			b_n = \frac{1}{\pi}\int_{-\pi}^{\pi}x^2\sin(nx)~dx = 0\\
+		\end{eqnarray*}
+		therefore 
+		\begin{eqnarray*}
+			f(x) &=& \frac{\pi ^2}{3} + \sum_{n=1}^{\infty}\frac{4}{n^2}\cos(n\pi)\cos(nx)\\
+				&=& \frac{\pi^2}{3}+4\sum_{n=1}^{\infty}\frac{(-1)^n}{n^2}\cos(nx)
+		\end{eqnarray*}
+		
+		\item %3
+		\begin{eqnarray*}
+			\left( \begin{array}{c}y_1\\y_2\end{array}\right)' 
+			=\left( \begin{array}{c}-y_2\\y_1\end{array}\right)
+			\text{ and }
+			\left(\begin{array}{c}y_1(0)\\y_2(0) \end{array} \right)'	
+			=\left(\begin{array}{c}1\\0 \end{array} \right)
+		\end{eqnarray*}	
+		therefore
+		\begin{eqnarray*}
+			\left(\begin{array}{c}y_1\\y_2\end{array} \right)'
+			=\left(\begin{array}{cc}0&-1\\1&0\end{array} \right)
+			\left(\begin{array}{c}y_1\\y_2\end{array} \right)
+			=A\left(\begin{array}{c}y_1\\y_2\end{array} \right)
+			\text{ , where }
+			A = \left(\begin{array}{cc}0&-1\\1&0\end{array} \right)
+		\end{eqnarray*}
+		then det$\left(\begin{array}{cc}0-x&-1\\1&0-x\end{array} \right)=x^2+1 \Rightarrow$ eigenvalues are $i$ and $-i$\\
+		let $\left(\begin{array}{c}1\\i\end{array} \right)$ and $\left(\begin{array}{c}1\\-i\end{array} \right)$ be two eigenvectors , then
+		\begin{eqnarray*}
+			\left( \begin{array}{c}y_1\\y_2\end{array}\right)
+			=\frac{1}{2}e^{it}\left(\begin{array}{c}1\\i\end{array} \right)+\frac{1}{2}e^{-it}\left(\begin{array}{c}1\\-i\end{array} \right)
+		\end{eqnarray*}
+		therefore
+		\begin{eqnarray*}
+		y_1=\frac{1}{2}(e^{it}+e^{-it})~,~y_2=\frac{i}{2}(e^{it}-e^{-it})\\
+		y_1^2+y_2^2=\frac{1}{4}[(e^{2it}+2+e^{-2it})-(e^{2it}-2+e^{-2it})]=\frac{1}{4}*4=1
+		\end{eqnarray*}
+		\newpage
+		\lstset{language=Matlab,showstringspaces=false,breaklines=true}
+		\section*{MATLAB code for two methods}
+		\lstinputlisting[frame=single,numbers = left]{hw4.m}
+	\end{enumerate}
+\end{document}

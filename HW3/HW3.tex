@@ -1,0 +1,137 @@
+\documentclass[12pt]{article}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage{commath}
+\usepackage{fontspec} 
+\usepackage{xeCJK}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\usepackage{amsmath}
+\usepackage{listings}
+\parindent=0pt
+\setCJKmainfont{標楷體} 
+\XeTeXlinebreaklocale "zh"
+\XeTeXlinebreakskip = 0pt plus 1pt
+\title{數值分析Team5 Homwork3}
+\author{盧勁綸\and 張毓軒\and 李奇軒\and 王宥鈞}
+\date{}
+
+
+\begin{document}
+\maketitle
+
+[Theoretical problems]
+\begin{enumerate}
+    \item
+        \begin{enumerate}
+            \item %1(a) 
+            Use Gaussian quadrature with $n = 2$~,~let $f(x) = \frac{2x}{x^2-4}$
+            \begin{eqnarray*}
+                \int_{1}^{1.6} \frac{2x}{x^2-4}~dx &=& \frac{1.6-1}{2}\int_{-1}^{1}f\left(\frac{1.6-1}{2}x+\frac{1.6+1}{2}\right)~dx \\
+                &=& 0.3\int_{-1}^{1}f(0.3x+1.3)~dx\\
+                & \approx & 0.3~[~\alpha_1 f(x_1)+\alpha_2 f(x_2)+\alpha_3 f(x_3)~]               
+            \end{eqnarray*} 
+            \begin{align*}
+            \text{where}~~\alpha_1 & = \frac{5}{9}\approx 0.5556~,~x_1=-\sqrt{0.6}\approx-0.7746\\
+            \alpha_2&=\frac{8}{9}\approx0.8889~,~x_2=0\\
+            \alpha_3&=\frac{5}{9}\approx0.5556~,~x_3=\sqrt{0.6}\approx0.7746     
+            \end{align*}
+            \begin{eqnarray*}
+            \Rightarrow \int_{1}^{1.6}\frac{2x}{x^2-4}~dx &\approx& 0.3~[~0.5556*f(~0.3(-0.7746)+1.3~)+0.8889*f(~0.3*0+1.3~)\\
+            &&+0.5556*f(~0.3(0.7746)+1.3~)~]\\
+            &=&0.3~[~0.556*f(1.0676)+0.8889*f(1.3)+0.5556*f(1.5324)~]\\
+            &=&0.3~[~(-0.4427)+(-1.0005)+(-1.0309)~]\\
+            &=&-0.7422
+            \end{eqnarray*}
+            And the exact value is
+            \begin{eqnarray*}
+            \int_{1}^{1.6}\frac{2x}{x^2-4}~dx&=&\int_{3}^{1.44}\frac{dy}{y}
+            ~~~\text{(let $y=4-x^2 , dy=-2xdx$)}\\
+            &=&[~\ln(y)~]_{3}^{1.44}\\
+            &=&\ln(1.44)-\ln(3)\\
+            &=&-0.734
+            \end{eqnarray*}
+     
+            \item %1(b)
+            Use Gaussian quadrature with $n = 2$~,~let $f(x) = \frac{x}{\sqrt{x^2-4}}$
+            \begin{eqnarray*}
+            \int_{3}^{3.5}\frac{x}{\sqrt{x^2-4}}&=&\frac{3.5-3}{2}\int_{-1}^{1}f\left(\frac{3.5-3}{2}x+\frac{3.5+3}{2}\right)~dx\\
+            &\approx& 0.25~[~\alpha_1 f(x_1)+\alpha_2 f(x_2)+\alpha_3 f(x_3)~]\\
+            &=&0.25~[~0.5556*f(~0.25*(-0.7746)+3.25~)+0.8889*f(3.25)\\
+            &&+0.5556*f(~0.25*(0.7746)+3.25~)~]\\
+            &=&0.25~[~0.5556*f(3.0564)+0.8889*f(3.25)+0.5556*f(3.4437)~]\\
+            &=&0.25~[~0.7345+1.1277+0.6825~]\\
+            &=&0.6362
+            \end{eqnarray*}
+            And the exact value is
+            \begin{eqnarray*}
+            \int_{3}^{3	.5}\frac{x}{\sqrt{x^2-4}}~dx&=&\int_{5}^{8.25}\frac{dy}{2\sqrt{y}}
+            ~~~\text{(let $y=x^2-4 , dy=-2xdx$)}\\
+            &=&[~\sqrt{y}~]_{5}^{8.25}\\
+            &=&\sqrt{8.25}-\sqrt{5}\\
+            &=&2.8723-2.2361\\
+            &=&0.6362
+            \end{eqnarray*}            
+        \end{enumerate}
+	\item 
+	We know that given $n$ point, we can get the order of precision to $2n-1$ \\\\
+	then consider the following function. \\
+	\begin{eqnarray*}
+	f(x)={\Pi_{i=1}^{n}}(x-x_i)^2
+	\end{eqnarray*}
+	then by the lecture note
+	\begin{eqnarray*}
+	Q_{n}(x)&=&\Sigma_{i=1}^{n}w_{i}f(x_i)=0 \\
+	I(f)&=&\int_{a}^{b}f(x)~dx>0 \\
+	E_{n}&=&I(f)-Q_{n}>0\\
+	\end{eqnarray*}
+	By expanding $f$, we knew that $f$ can be express as
+	\begin{eqnarray*}
+    f(x)=\Sigma_{i=0}^{2n}~\alpha_{i}x^{i}
+	\end{eqnarray*}
+	for each $x^{i}$ , $0 \leq i \leq 2n-1$
+	\begin{eqnarray*}
+	E_{n}(x^i)&=&I(x^i)-Q_{n}(x^i)=0\\
+	\Rightarrow E_{n}(\alpha_{i}x^i)&=&I(\alpha_{i}x^i)-Q_{n}(\alpha_{i}x^i)=0\\	
+	\text{but } E_{n}&=&I(f)-Q_{n}>0\\
+	\Rightarrow \ E_{n}(x^{2n})&=&I(x^{2n})-Q_{n}(x^{2n})>0 ~~~~QED
+	\end{eqnarray*}
+	
+	
+	\item
+	Let $h=\frac{b-a}{3}$~,~$x_0=a+h$~,~$x_1=b+h$\\\\
+	By Newton formula\\
+	\begin{eqnarray*}
+	f(t)&=&f(x_0)\frac{t-x_1}{x_0-x_1}+f(x_1)\frac{t-x_0}{x_1-x_0}\\
+	\widetilde{\int_{a}^{b}}f(t)~dt&=&\int_{a}^{b}f(x_0)\frac{t-x_1}{x_0-x_1}+f(x_1)\frac{t-x_0}{x_1-x_0}~dt\\
+	&=&f(\frac{2a+b}{3})\frac{\frac{b^2-a^2}{2}-\frac{a+2b}{3}(b-a)}{\frac{a-b}{3}}
+	+f(\frac{a+2b}{3})\frac{\frac{b^2-a^2}{2}-\frac{2a+b}{3}(b-a)}{\frac{b-a}{3}}\\
+	&=&\frac{3}{2}(\frac{b-a}{3})\left[f\left(\frac{2a+b}{3}\right)+f\left(\frac{a+2b}{3}\right)\right]\\
+	&=&\frac{b-a}{2}\left[f\left(\frac{2a+b}{3}\right)+f\left(\frac{a+2b}{3}\right)\right]\\
+	\end{eqnarray*}
+	\begin{enumerate}[{(1)}]
+		\item If $f(x)=1~,~\int_{a}^{b}1~dx=b-a$
+			\begin{eqnarray*}
+				\widetilde{\int_{a}^{b}}1~dx=\frac{b-a}{2}[1+1]=b-a
+			\end{eqnarray*}
+		\item If $f(x)=x$~,~$\int_{a}^{b}x~dx=\frac{b^2-a^2}{2}$
+			\begin{eqnarray*}
+				\widetilde{\int_{a}^{b}}x~dx=\frac{b-a}{2}(\frac{3a+3b}{3})=						\frac{b^2-a^2}{2}\\
+			\end{eqnarray*}
+		\item If $f(x)=x^2~,~\int_{a}^{b}x^2~dx = \frac{b^3-a^3}{3}$
+			\begin{eqnarray*}
+				\widetilde{\int_{a}^{b}}x^2~dx &=&\frac{b-a}{2}\left(\frac{4a^2+4ab+b^2}{9}+\frac{a^2+4ab+4b^2}{9}\right)\\
+				&=&\frac{(b-a)(5a^2+8ab+5b^2)}{18}\\
+				&\neq&\frac{b^3-a^3}{3}
+			\end{eqnarray*}
+	\end{enumerate}
+
+        
+\end{enumerate}
+
+[Numerical Problems]
+\begin{enumerate}
+    \item
+    \lstset{language=Matlab,showstringspaces=false}
+	\lstinputlisting{inte.m}
+\end{enumerate}
+\end{document}
